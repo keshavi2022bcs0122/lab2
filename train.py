@@ -12,7 +12,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 # =========================================
 MODEL_TYPE = "lasso"   # "linear" or "lasso"
 LASSO_ALPHA = 0.1       # used only if MODEL_TYPE="lasso"
-TEST_SIZE = 0.2
+TEST_SIZE = 0.3
 USE_SCALER = True
 # =========================================
 
