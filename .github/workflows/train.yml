@@ -23,10 +23,9 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Run training
-  run: |
-    mkdir -p output
-    python train.py | tee output/log.txt
-
+      run: |
+        mkdir -p output
+        python train.py | tee output/log.txt
 
     - name: Write Job Summary
       run: |
