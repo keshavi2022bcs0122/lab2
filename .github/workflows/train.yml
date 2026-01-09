@@ -1,0 +1,42 @@
+name: ML Training Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run training
+      run: python train.py | tee output/log.txt
+
+    - name: Write Job Summary
+      run: |
+        echo "## Lab 2 – Experiment Results" >> $GITHUB_STEP_SUMMARY
+        echo "**Name:** YOUR_NAME" >> $GITHUB_STEP_SUMMARY
+        echo "**Roll No:** YOUR_ROLL_NO**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Metrics" >> $GITHUB_STEP_SUMMARY
+        grep "MSE" output/log.txt >> $GITHUB_STEP_SUMMARY
+        grep "R2" output/log.txt >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: model-and-results
+        path: output/
